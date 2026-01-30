@@ -51,17 +51,17 @@ export default function LifestyleRealityCheck() {
         Lifestyle Reality Check
       </h1>
 
-      <p style={{ color: "#aaa", maxWidth: "500px" }}>
-        Check if your lifestyle matches your salary or you're living in delusion.
+      <p style={{ color: "#22c55e", fontSize: "14px" }}>
+        Are you living within your means?
       </p>
 
-      <div className="card" style={{ marginTop: "20px", maxWidth: "400px" }}>
-        <input className="input" placeholder="Monthly Salary (₹)" value={salary} onChange={e => setSalary(e.target.value)} />
-        <input className="input" placeholder="Rent (₹)" value={rent} onChange={e => setRent(e.target.value)} />
-        <input className="input" placeholder="EMI (₹)" value={emi} onChange={e => setEmi(e.target.value)} />
-        <input className="input" placeholder="Groceries (₹)" value={groceries} onChange={e => setGroceries(e.target.value)} />
-        <input className="input" placeholder="Transport (₹)" value={transport} onChange={e => setTransport(e.target.value)} />
-        <input className="input" placeholder="Subscriptions (₹)" value={subs} onChange={e => setSubs(e.target.value)} />
+      <div className="card" style={{ marginTop: "20px", maxWidth: "420px" }}>
+        <input className="input" type="number" placeholder="Monthly Salary (₹)" value={salary} onChange={e => setSalary(e.target.value)} />
+        <input className="input" type="number" placeholder="Rent (₹)" value={rent} onChange={e => setRent(e.target.value)} />
+        <input className="input" type="number" placeholder="EMI (₹)" value={emi} onChange={e => setEmi(e.target.value)} />
+        <input className="input" type="number" placeholder="Groceries (₹)" value={groceries} onChange={e => setGroceries(e.target.value)} />
+        <input className="input" type="number" placeholder="Transport (₹)" value={transport} onChange={e => setTransport(e.target.value)} />
+        <input className="input" type="number" placeholder="Subscriptions (₹)" value={subs} onChange={e => setSubs(e.target.value)} />
 
         <button className="button-primary" onClick={calculate}>
           Check Lifestyle
@@ -69,7 +69,7 @@ export default function LifestyleRealityCheck() {
       </div>
 
       {result && (
-        <div className="card" style={{ marginTop: "30px", maxWidth: "400px" }}>
+        <div className="result-card" style={{ marginTop: "30px", maxWidth: "420px" }}>
           <h3>Status: {result.status}</h3>
           <p>Total Monthly Spend: ₹{result.total}</p>
           <p>Monthly Savings: ₹{result.savings}</p>

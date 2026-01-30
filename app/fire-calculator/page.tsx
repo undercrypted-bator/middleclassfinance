@@ -21,7 +21,7 @@ export default function FireCalculator() {
     let corpus = 0
     let years = 0
     const annualSavings = monthlySavings * 12
-    const returnRate = 0.12
+    const returnRate = 0.12 // 12% assumption
 
     while (corpus < fireNumber && years < 60) {
       corpus = corpus * (1 + returnRate) + annualSavings
@@ -30,12 +30,32 @@ export default function FireCalculator() {
 
     const fireAge = currentAge + years
 
+    let verdict = ""
+    let message = ""
+
+    if (fireAge <= 40) {
+      verdict = "Early FIRE 😎"
+      message = "You are on a strong path. Financial freedom is realistically achievable."
+    } else if (fireAge <= 50) {
+      verdict = "Normal FIRE 🙂"
+      message = "You can retire comfortably with consistent discipline."
+    } else {
+      verdict = "Late FIRE 😐"
+      message = "You need to increase savings or reduce expenses to FIRE earlier."
+    }
+
     setResult({
       fireAge,
       years,
       fireNumber: Math.round(fireNumber),
-      corpus: Math.round(corpus)
+      corpus: Math.round(corpus),
+      verdict,
+      message
     })
+  }
+
+  function formatNumber(num: number) {
+    return num.toLocaleString("en-IN")
   }
 
   return (
@@ -48,29 +68,62 @@ export default function FireCalculator() {
         Middle-Class FIRE Calculator
       </h1>
 
-      <p style={{ color: "#aaa", maxWidth: "500px" }}>
-        Find out when you can become financially stress-free.
+      <p style={{ color: "#22c55e", fontSize: "14px" }}>
+        When can you become financially stress-free?
       </p>
 
-      <div className="card" style={{ marginTop: "20px", maxWidth: "400px" }}>
-        <input className="input" placeholder="Your Age" value={age} onChange={e => setAge(e.target.value)} />
-        <input className="input" placeholder="Monthly Salary (₹)" value={salary} onChange={e => setSalary(e.target.value)} />
-        <input className="input" placeholder="Monthly Savings (₹)" value={savings} onChange={e => setSavings(e.target.value)} />
-        <input className="input" placeholder="Monthly Expense at FIRE (₹)" value={expense} onChange={e => setExpense(e.target.value)} />
+      <div className="card" style={{ marginTop: "20px", maxWidth: "420px" }}>
+        <input
+          className="input"
+          type="number"
+          placeholder="Your Age"
+          value={age}
+          onChange={e => setAge(e.target.value)}
+        />
+
+        <input
+          className="input"
+          type="number"
+          placeholder="Monthly Salary (₹)"
+          value={salary}
+          onChange={e => setSalary(e.target.value)}
+        />
+
+        <input
+          className="input"
+          type="number"
+          placeholder="Monthly Savings (₹)"
+          value={savings}
+          onChange={e => setSavings(e.target.value)}
+        />
+
+        <input
+          className="input"
+          type="number"
+          placeholder="Monthly Expense at FIRE (₹)"
+          value={expense}
+          onChange={e => setExpense(e.target.value)}
+        />
 
         <button className="button-primary" onClick={calculate}>
-          Calculate FIRE
+          Calculate My FIRE
         </button>
       </div>
 
       {result && (
-        <div className="card" style={{ marginTop: "30px", maxWidth: "400px" }}>
-          <h3>You can FIRE at age: {result.fireAge}</h3>
+        <div className="result-card" style={{ marginTop: "30px", maxWidth: "420px" }}>
+          <h3>{result.verdict}</h3>
+
+          <p>You can FIRE at age: <strong>{result.fireAge}</strong></p>
           <p>Years to go: {result.years}</p>
-          <p>Required FIRE corpus: ₹{result.fireNumber}</p>
-          <p>Expected corpus: ₹{result.corpus}</p>
+          <p>Required FIRE corpus: ₹{formatNumber(result.fireNumber)}</p>
+          <p>Expected corpus: ₹{formatNumber(result.corpus)}</p>
 
           <p style={{ marginTop: "12px", color: "#aaa" }}>
+            {result.message}
+          </p>
+
+          <p style={{ marginTop: "8px", fontSize: "12px", color: "#666" }}>
             Assumes 12% annual returns and constant savings.
           </p>
         </div>

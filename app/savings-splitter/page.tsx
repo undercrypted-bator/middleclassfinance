@@ -11,6 +11,7 @@ export default function SavingsSplitter() {
     const s = Number(salary)
     if (!s) return
 
+    // Rule: target 30% savings
     const savings = Math.round(s * 0.3)
 
     let equityPercent = 50
@@ -50,15 +51,32 @@ export default function SavingsSplitter() {
         Savings Splitter
       </h1>
 
-      <p style={{ color: "#aaa", maxWidth: "500px" }}>
-        Get a simple plan to split your salary into emergency, investment and fun.
+      <p style={{ color: "#22c55e", fontSize: "14px" }}>
+        A simple plan for your salary
       </p>
 
-      <div className="card" style={{ marginTop: "20px", maxWidth: "400px" }}>
-        <input className="input" placeholder="Monthly Salary (₹)" value={salary} onChange={e => setSalary(e.target.value)} />
-        <input className="input" placeholder="Your Age" value={age} onChange={e => setAge(e.target.value)} />
+      <div className="card" style={{ marginTop: "20px", maxWidth: "420px" }}>
+        <input
+          className="input"
+          type="number"
+          placeholder="Monthly Salary (₹)"
+          value={salary}
+          onChange={e => setSalary(e.target.value)}
+        />
 
-        <select className="input" value={risk} onChange={e => setRisk(e.target.value)}>
+        <input
+          className="input"
+          type="number"
+          placeholder="Your Age"
+          value={age}
+          onChange={e => setAge(e.target.value)}
+        />
+
+        <select
+          className="input"
+          value={risk}
+          onChange={e => setRisk(e.target.value)}
+        >
           <option value="low">Low Risk</option>
           <option value="medium">Medium Risk</option>
           <option value="high">High Risk</option>
@@ -70,7 +88,7 @@ export default function SavingsSplitter() {
       </div>
 
       {result && (
-        <div className="card" style={{ marginTop: "30px", maxWidth: "400px" }}>
+        <div className="result-card" style={{ marginTop: "30px", maxWidth: "420px" }}>
           <h3>Monthly Savings: ₹{result.savings}</h3>
 
           <p>Emergency Fund: ₹{result.emergency}</p>

@@ -28,73 +28,57 @@ export default function SalaryPage() {
   }
 
   return (
-    <main style={{ padding: "80px 20px" }}>
-      <a href="/" style={{ color: "#555", textDecoration: "none" }}>
+    <main>
+      <a href="/" style={{ color: "#aaa", textDecoration: "none" }}>
         ← Back
       </a>
 
-      <h1 style={{ marginTop: "20px" }}>Salary Reality Check</h1>
+      <h1 style={{ marginTop: "20px" }}>
+        Salary Reality Check
+      </h1>
 
-      <div style={card}>
+      <p style={{ color: "#22c55e", fontSize: "14px" }}>
+        Real-time financial analysis
+      </p>
+
+      <div className="card" style={{ marginTop: "20px", maxWidth: "400px" }}>
         <input
+          className="input"
           type="number"
           placeholder="Monthly Salary (₹)"
           value={salary}
           onChange={e => setSalary(e.target.value)}
-          style={input}
         />
 
         <select
+          className="input"
           value={city}
           onChange={e => setCity(e.target.value)}
-          style={input}
         >
-          <option value="tier1">Tier 1</option>
-          <option value="tier2">Tier 2</option>
-          <option value="tier3">Tier 3</option>
+          <option value="tier1">Tier 1 (Delhi, Mumbai)</option>
+          <option value="tier2">Tier 2 (Jaipur, Pune)</option>
+          <option value="tier3">Tier 3 (Small town)</option>
         </select>
 
-        <button onClick={calculate} style={primaryBtn}>
+        <button className="button-primary" onClick={calculate}>
           Check Reality
         </button>
       </div>
 
       {result && (
-        <div style={{ ...card, marginTop: "30px" }}>
-          <p>Rent: ₹{formatNumber(result.rent)}</p>
-          <p>EMI: ₹{formatNumber(result.emi)}</p>
-          <p>Savings: ₹{formatNumber(result.savings)}</p>
-          <p>Daily: ₹{formatNumber(result.daily)}</p>
-          <p>Fun: ₹{formatNumber(result.fun)}</p>
+        <div className="result-card" style={{ marginTop: "30px", maxWidth: "400px" }}>
+          <h3>Financial Breakdown</h3>
+          <p>Max Safe Rent: ₹{formatNumber(result.rent)}</p>
+          <p>Max Safe EMI: ₹{formatNumber(result.emi)}</p>
+          <p>Savings Target: ₹{formatNumber(result.savings)}</p>
+          <p>Daily Expenses: ₹{formatNumber(result.daily)}</p>
+          <p>Fun Money: ₹{formatNumber(result.fun)}</p>
+
+          <p style={{ marginTop: "12px", color: "#aaa" }}>
+            This is a realistic middle-class lifestyle.
+          </p>
         </div>
       )}
     </main>
   )
-}
-
-const card = {
-  marginTop: "20px",
-  padding: "20px",
-  borderRadius: "12px",
-  background: "white",
-  boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
-  maxWidth: "400px"
-}
-
-const input = {
-  width: "100%",
-  padding: "12px",
-  marginBottom: "12px",
-  borderRadius: "8px",
-  border: "1px solid #ddd"
-}
-
-const primaryBtn = {
-  width: "100%",
-  padding: "12px",
-  borderRadius: "8px",
-  border: "none",
-  background: "#111",
-  color: "white",
-  cursor: "pointer"
 }

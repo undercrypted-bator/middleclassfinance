@@ -17,83 +17,65 @@ export default function EMIStressTest() {
     let message = ""
 
     if (percent <= 30) {
-      status = "Safe"
-      message = "Your EMI is within a safe limit."
+      status = "Safe 😌"
+      message = "Your EMI is within safe limits. Financial stress is low."
     } else if (percent <= 45) {
-      status = "Risky"
-      message = "Your EMI is high. Monthly pressure likely."
+      status = "Risky 😐"
+      message = "Your EMI is high. One emergency can create pressure."
     } else {
-      status = "Dangerous"
-      message = "Your EMI is too high. Financial stress ahead."
+      status = "Dangerous 😵"
+      message = "Your EMI is too high. This lifestyle is not sustainable."
     }
 
     setResult({ percent, status, message })
   }
 
   return (
-    <main style={{ padding: "80px 20px" }}>
-      <a href="/" style={{ color: "#555", textDecoration: "none" }}>
+    <main>
+      <a href="/" style={{ color: "#aaa", textDecoration: "none" }}>
         ← Back
       </a>
 
-      <h1 style={{ marginTop: "20px" }}>EMI Stress Test</h1>
+      <h1 style={{ marginTop: "20px" }}>
+        EMI Stress Test
+      </h1>
 
-      <div style={card}>
+      <p style={{ color: "#22c55e", fontSize: "14px" }}>
+        Real-time debt analysis
+      </p>
+
+      <div className="card" style={{ marginTop: "20px", maxWidth: "400px" }}>
         <input
+          className="input"
           type="number"
           placeholder="Monthly Salary (₹)"
           value={salary}
           onChange={e => setSalary(e.target.value)}
-          style={input}
         />
 
         <input
+          className="input"
           type="number"
           placeholder="Monthly EMI (₹)"
           value={emi}
           onChange={e => setEmi(e.target.value)}
-          style={input}
         />
 
-        <button onClick={calculate} style={primaryBtn}>
+        <button className="button-primary" onClick={calculate}>
           Check EMI Stress
         </button>
       </div>
 
       {result && (
-        <div style={{ ...card, marginTop: "30px" }}>
-          <p>Your EMI is {result.percent}% of salary</p>
-          <h2>Status: {result.status}</h2>
-          <p style={{ color: "#555" }}>{result.message}</p>
+        <div className="result-card" style={{ marginTop: "30px", maxWidth: "400px" }}>
+          <h3>Status: {result.status}</h3>
+          <p>Your EMI is <strong>{result.percent}%</strong> of your salary.</p>
+
+          <p style={{ marginTop: "12px", color: "#aaa" }}>
+            {result.message}
+          </p>
         </div>
       )}
     </main>
   )
-}
-
-const card = {
-  marginTop: "20px",
-  padding: "20px",
-  borderRadius: "12px",
-  background: "white",
-  boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
-  maxWidth: "400px"
-}
-
-const input = {
-  width: "100%",
-  padding: "12px",
-  marginBottom: "12px",
-  borderRadius: "8px",
-  border: "1px solid #ddd"
-}
-
-const primaryBtn = {
-  width: "100%",
-  padding: "12px",
-  borderRadius: "8px",
-  border: "none",
-  background: "#111",
-  color: "white",
-  cursor: "pointer"
 }
