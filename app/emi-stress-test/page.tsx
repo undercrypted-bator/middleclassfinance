@@ -1,30 +1,33 @@
 "use client"
 import { useState } from "react"
 
-export default function SalaryPage() {
+export default function EMIStressTest() {
   const [salary, setSalary] = useState("")
-  const [city, setCity] = useState("tier1")
+  const [emi, setEmi] = useState("")
   const [result, setResult] = useState<any>(null)
-
-  function formatNumber(num: number) {
-    return num.toLocaleString("en-IN")
-  }
 
   function calculate() {
     const s = Number(salary)
-    if (!s) return
+    const e = Number(emi)
+    if (!s || !e) return
 
-    let multiplier = 1
-    if (city === "tier2") multiplier = 0.85
-    if (city === "tier3") multiplier = 0.7
+    const percent = Math.round((e / s) * 100)
 
-    const rent = Math.round(s * 0.3 * multiplier)
-    const emi = Math.round(s * 0.2)
-    const savings = Math.round(s * 0.2)
-    const daily = Math.round(s * 0.25 * multiplier)
-    const fun = Math.round(s * 0.05)
+    let status = ""
+    let message = ""
 
-    setResult({ rent, emi, savings, daily, fun })
+    if (percent <= 30) {
+      status = "Safe"
+      message = "Your EMI is within a safe limit."
+    } else if (percent <= 45) {
+      status = "Risky"
+      message = "Your EMI is high. Monthly pressure likely."
+    } else {
+      status = "Dangerous"
+      message = "Your EMI is too high. Financial stress ahead."
+    }
+
+    setResult({ percent, status, message })
   }
 
   return (
@@ -33,7 +36,7 @@ export default function SalaryPage() {
         ← Back
       </a>
 
-      <h1 style={{ marginTop: "20px" }}>Salary Reality Check</h1>
+      <h1 style={{ marginTop: "20px" }}>EMI Stress Test</h1>
 
       <div style={card}>
         <input
@@ -44,28 +47,24 @@ export default function SalaryPage() {
           style={input}
         />
 
-        <select
-          value={city}
-          onChange={e => setCity(e.target.value)}
+        <input
+          type="number"
+          placeholder="Monthly EMI (₹)"
+          value={emi}
+          onChange={e => setEmi(e.target.value)}
           style={input}
-        >
-          <option value="tier1">Tier 1</option>
-          <option value="tier2">Tier 2</option>
-          <option value="tier3">Tier 3</option>
-        </select>
+        />
 
         <button onClick={calculate} style={primaryBtn}>
-          Check Reality
+          Check EMI Stress
         </button>
       </div>
 
       {result && (
         <div style={{ ...card, marginTop: "30px" }}>
-          <p>Rent: ₹{formatNumber(result.rent)}</p>
-          <p>EMI: ₹{formatNumber(result.emi)}</p>
-          <p>Savings: ₹{formatNumber(result.savings)}</p>
-          <p>Daily: ₹{formatNumber(result.daily)}</p>
-          <p>Fun: ₹{formatNumber(result.fun)}</p>
+          <p>Your EMI is {result.percent}% of salary</p>
+          <h2>Status: {result.status}</h2>
+          <p style={{ color: "#555" }}>{result.message}</p>
         </div>
       )}
     </main>

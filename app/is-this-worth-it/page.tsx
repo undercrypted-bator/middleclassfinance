@@ -1,10 +1,10 @@
 "use client"
 import { useState } from "react"
 
-export default function SalaryPage() {
+export default function WorthItPage() {
   const [salary, setSalary] = useState("")
-  const [city, setCity] = useState("tier1")
-  const [result, setResult] = useState<any>(null)
+  const [price, setPrice] = useState("")
+  const [hours, setHours] = useState<number | null>(null)
 
   function formatNumber(num: number) {
     return num.toLocaleString("en-IN")
@@ -12,19 +12,12 @@ export default function SalaryPage() {
 
   function calculate() {
     const s = Number(salary)
-    if (!s) return
+    const p = Number(price)
+    if (!s || !p) return
 
-    let multiplier = 1
-    if (city === "tier2") multiplier = 0.85
-    if (city === "tier3") multiplier = 0.7
-
-    const rent = Math.round(s * 0.3 * multiplier)
-    const emi = Math.round(s * 0.2)
-    const savings = Math.round(s * 0.2)
-    const daily = Math.round(s * 0.25 * multiplier)
-    const fun = Math.round(s * 0.05)
-
-    setResult({ rent, emi, savings, daily, fun })
+    const hourlyIncome = s / 160
+    const neededHours = Math.round(p / hourlyIncome)
+    setHours(neededHours)
   }
 
   return (
@@ -33,7 +26,7 @@ export default function SalaryPage() {
         ← Back
       </a>
 
-      <h1 style={{ marginTop: "20px" }}>Salary Reality Check</h1>
+      <h1 style={{ marginTop: "20px" }}>Is This Worth It?</h1>
 
       <div style={card}>
         <input
@@ -44,28 +37,26 @@ export default function SalaryPage() {
           style={input}
         />
 
-        <select
-          value={city}
-          onChange={e => setCity(e.target.value)}
+        <input
+          type="number"
+          placeholder="Price of Item (₹)"
+          value={price}
+          onChange={e => setPrice(e.target.value)}
           style={input}
-        >
-          <option value="tier1">Tier 1</option>
-          <option value="tier2">Tier 2</option>
-          <option value="tier3">Tier 3</option>
-        </select>
+        />
 
         <button onClick={calculate} style={primaryBtn}>
-          Check Reality
+          Check Worth
         </button>
       </div>
 
-      {result && (
+      {hours && (
         <div style={{ ...card, marginTop: "30px" }}>
-          <p>Rent: ₹{formatNumber(result.rent)}</p>
-          <p>EMI: ₹{formatNumber(result.emi)}</p>
-          <p>Savings: ₹{formatNumber(result.savings)}</p>
-          <p>Daily: ₹{formatNumber(result.daily)}</p>
-          <p>Fun: ₹{formatNumber(result.fun)}</p>
+          <p>This purchase will cost you:</p>
+          <h2>{formatNumber(hours)} hours of your life</h2>
+          <p style={{ color: "#555" }}>
+            (Assuming 160 working hours per month)
+          </p>
         </div>
       )}
     </main>
