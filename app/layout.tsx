@@ -1,4 +1,5 @@
 import "./globals.css"
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata = {
   title: "MiddleClassFinance",
@@ -59,6 +60,9 @@ export default function RootLayout({
             © {new Date().getFullYear()} MiddleClassFinance
           </div>
         </footer>
+
+        {/* ANALYTICS */}
+        <Analytics />
       </body>
     </html>
   )
