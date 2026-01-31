@@ -18,6 +18,7 @@ export default function Home() {
 
   return (
     <main>
+      {/* HEADER */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h1 style={{ fontSize: "52px", lineHeight: "1.1" }}>
           Real money advice <br />
@@ -41,9 +42,11 @@ export default function Home() {
       </div>
 
       <p style={{ marginTop: "20px", color: "#aaa", maxWidth: "600px" }}>
-        Track your financial reality over time.
+        You’re not a finfluencer.  
+        You’re the bhai who explains money without bakchodi.
       </p>
 
+      {/* TOOLS */}
       <div style={{ marginTop: "40px", display: "flex", gap: "16px", flexWrap: "wrap" }}>
         <a href="/finance-dashboard">
           <button className="button-primary">Finance Dashboard</button>
@@ -57,19 +60,56 @@ export default function Home() {
         <a href="/fire-calculator"><button className="button-secondary">FIRE</button></a>
       </div>
 
-      <div
-        style={{
-          marginTop: "80px",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: "20px"
-        }}
-      >
-        <div className="card"><h3>One dashboard</h3><p style={{ color: "#aaa" }}>Complete financial snapshot.</p></div>
-        <div className="card"><h3>Spending reality</h3><p style={{ color: "#aaa" }}>Are you overspending?</p></div>
-        <div className="card"><h3>Debt stress</h3><p style={{ color: "#aaa" }}>Loan safe or suicide?</p></div>
-        <div className="card"><h3>Savings plan</h3><p style={{ color: "#aaa" }}>Where should money go?</p></div>
-        <div className="card"><h3>Early freedom</h3><p style={{ color: "#aaa" }}>When can you relax?</p></div>
+      {/* GUIDES SECTION */}
+      <div style={{ marginTop: "80px" }}>
+        <h2>Popular Money Guides</h2>
+        <p style={{ color: "#aaa" }}>
+          Honest answers to questions every middle-class Indian Googles.
+        </p>
+
+        <div
+          style={{
+            marginTop: "20px",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "20px"
+          }}
+        >
+          <a href="/40k-salary-delhi" className="card">
+            <h3>40k Salary in Delhi</h3>
+            <p style={{ color: "#aaa" }}>
+              Is it enough for a decent middle class life?
+            </p>
+          </a>
+
+          <a href="/30-percent-emi-safe" className="card">
+            <h3>Is 30% EMI Safe?</h3>
+            <p style={{ color: "#aaa" }}>
+              The real EMI rule banks won’t tell you.
+            </p>
+          </a>
+
+          <a href="/rent-affordability-india" className="card">
+            <h3>Rent Affordability</h3>
+            <p style={{ color: "#aaa" }}>
+              How much rent should you actually pay?
+            </p>
+          </a>
+
+          <a href="/middle-class-fire-india" className="card">
+            <h3>FIRE for Middle Class</h3>
+            <p style={{ color: "#aaa" }}>
+              Can normal Indians really retire early?
+            </p>
+          </a>
+
+          <a href="/is-iphone-worth-it-india" className="card">
+            <h3>Is iPhone Worth It?</h3>
+            <p style={{ color: "#aaa" }}>
+              Or just a ₹1 lakh lifestyle trap?
+            </p>
+          </a>
+        </div>
       </div>
     </main>
   )
