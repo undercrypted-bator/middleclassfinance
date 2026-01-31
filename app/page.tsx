@@ -21,8 +21,7 @@ export default function Home() {
       {/* HEADER */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h1 style={{ fontSize: "52px", lineHeight: "1.1" }}>
-          Real money advice <br />
-          for <span style={{ color: "#22c55e" }}>real Indian salaries</span>
+          MiddleClassFinance
         </h1>
 
         {!user ? (
@@ -41,11 +40,6 @@ export default function Home() {
         )}
       </div>
 
-      <p style={{ marginTop: "20px", color: "#aaa", maxWidth: "600px" }}>
-        You’re not a finfluencer.  
-        You’re the bhai who explains money without bakchodi.
-      </p>
-
       {/* TOOLS */}
       <div style={{ marginTop: "40px", display: "flex", gap: "16px", flexWrap: "wrap" }}>
         <a href="/finance-dashboard">
@@ -63,9 +57,6 @@ export default function Home() {
       {/* GUIDES SECTION */}
       <div style={{ marginTop: "80px" }}>
         <h2>Popular Money Guides</h2>
-        <p style={{ color: "#aaa" }}>
-          Honest answers to questions every middle-class Indian Googles.
-        </p>
 
         <div
           style={{
