@@ -1,3 +1,5 @@
+import "./globals.css"
+
 export const metadata = {
   title: "MiddleClassFinance",
   description: "Real money advice for real Indian salaries.",
