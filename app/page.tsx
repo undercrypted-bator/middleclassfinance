@@ -1,7 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
-import Image from "next/image"
 
 export default function Home() {
   const [user, setUser] = useState<any>(null)
@@ -19,100 +18,107 @@ export default function Home() {
 
   return (
     <main>
-      {/* HERO SECTION */}
-      <div className="hero-grid">
-        <div>
-          <h1 className="hero-title">
-            MiddleClassFinance
-          </h1>
+      {/* HERO */}
+      <section style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <h1>MiddleClassFinance</h1>
 
-          <p className="hero-sub">
-            A personal finance system for Indian salaries.
-          </p>
+        <p style={{ color: "#aaa", maxWidth: "500px" }}>
+          A personal finance system for Indian salaries.
+        </p>
 
-          <div className="hero-buttons">
-            <a href="/finance-dashboard">
-              <button className="button-primary">Get Started</button>
+        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+          <a href="/finance-dashboard">
+            <button className="button-primary">Get Started</button>
+          </a>
+
+          {!user ? (
+            <a href="/login">
+              <button className="button-secondary">Login</button>
             </a>
-
-            {!user ? (
-              <a href="/login">
-                <button className="button-secondary">Login</button>
-              </a>
-            ) : (
-              <button className="button-secondary" onClick={logout}>
-                Logout
-              </button>
-            )}
-          </div>
+          ) : (
+            <button className="button-secondary" onClick={logout}>
+              Logout
+            </button>
+          )}
         </div>
+      </section>
 
-        <Image
-          src="/hero.png"
-          alt="MiddleClassFinance dashboard preview"
-          width={1200}
-          height={675}
-          className="hero-image"
-          priority
-        />
-      </div>
+      {/* TOOLS */}
+      <section style={{ marginTop: "80px" }}>
+        <h2>Tools</h2>
 
-      {/* FEATURE SECTION */}
-      <div className="feature-grid">
-        <Image
-          src="/saving.png"
-          alt="Savings and finance tracking"
-          width={800}
-          height={600}
-          className="feature-image"
-        />
+        <div
+          style={{
+            marginTop: "20px",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "16px"
+          }}
+        >
+          <a href="/salary-reality-check" className="card">
+            Salary Reality Check
+          </a>
 
-        <div>
-          <h2>One Dashboard. Real Reality.</h2>
-          <p className="feature-text">
-            Track salary, rent, EMI, savings and lifestyle stress in one place.
-            No fake motivation. Just real numbers.
-          </p>
+          <a href="/is-this-worth-it" className="card">
+            Is This Worth It?
+          </a>
+
+          <a href="/emi-stress-test" className="card">
+            EMI Stress Test
+          </a>
+
+          <a href="/lifestyle-reality-check" className="card">
+            Lifestyle Reality
+          </a>
+
+          <a href="/savings-splitter" className="card">
+            Savings Splitter
+          </a>
+
+          <a href="/fire-calculator" className="card">
+            FIRE Calculator
+          </a>
         </div>
-      </div>
+      </section>
 
-      {/* GUIDES SECTION */}
-      <div style={{ marginTop: "120px" }}>
+      {/* GUIDES */}
+      <section style={{ marginTop: "80px" }}>
         <h2>Popular Money Guides</h2>
 
-        <div style={{ marginTop: "20px" }}>
-          <Image
-            src="/guide.png"
-            alt="Personal finance guides"
-            width={1200}
-            height={500}
-            className="guide-image"
-          />
-        </div>
-
-        <div className="guide-grid">
+        <div
+          style={{
+            marginTop: "20px",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "20px"
+          }}
+        >
           <a href="/40k-salary-delhi" className="card">
             <h3>40k Salary in Delhi</h3>
-            <p style={{ color: "#aaa" }}>
-              Is it enough for a decent middle class life?
-            </p>
+            <p style={{ color: "#aaa" }}>Is it enough for a decent life?</p>
           </a>
 
           <a href="/30-percent-emi-safe" className="card">
             <h3>Is 30% EMI Safe?</h3>
-            <p style={{ color: "#aaa" }}>
-              The real EMI rule banks won’t tell you.
-            </p>
+            <p style={{ color: "#aaa" }}>The real EMI rule.</p>
+          </a>
+
+          <a href="/rent-affordability-india" className="card">
+            <h3>Rent Affordability</h3>
+            <p style={{ color: "#aaa" }}>How much rent is safe?</p>
           </a>
 
           <a href="/middle-class-fire-india" className="card">
             <h3>FIRE for Middle Class</h3>
-            <p style={{ color: "#aaa" }}>
-              Can normal Indians really retire early?
-            </p>
+            <p style={{ color: "#aaa" }}>Can Indians retire early?</p>
+          </a>
+
+          <a href="/is-iphone-worth-it-india" className="card">
+            <h3>Is iPhone Worth It?</h3>
+            <p style={{ color: "#aaa" }}>Lifestyle trap?</p>
           </a>
         </div>
-      </div>
+      </section>
     </main>
   )
 }
