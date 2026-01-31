@@ -1,79 +1,43 @@
 "use client"
 import { useState } from "react"
+import { share } from "@/lib/share"
 
-export default function EMIStressTest() {
+export default function EMIStress() {
   const [salary, setSalary] = useState("")
   const [emi, setEmi] = useState("")
   const [result, setResult] = useState<any>(null)
 
   function calculate() {
-    const s = Number(salary)
-    const e = Number(emi)
-    if (!s || !e) return
-
-    const percent = Math.round((e / s) * 100)
-
-    let status = ""
-    let message = ""
-
-    if (percent <= 30) {
-      status = "Safe 😌"
-      message = "Your EMI is within safe limits. Financial stress is low."
-    } else if (percent <= 45) {
-      status = "Risky 😐"
-      message = "Your EMI is high. One emergency can create pressure."
-    } else {
-      status = "Dangerous 😵"
-      message = "Your EMI is too high. This lifestyle is not sustainable."
-    }
-
-    setResult({ percent, status, message })
+    const percent = Math.round((Number(emi) / Number(salary)) * 100)
+    let status = "Safe"
+    if (percent > 40) status = "Risky"
+    if (percent > 50) status = "Dangerous"
+    setResult({ percent, status })
   }
 
   return (
     <main>
-      <a href="/" style={{ color: "#aaa", textDecoration: "none" }}>
-        ← Back
-      </a>
+      <h1>EMI Stress Test</h1>
 
-      <h1 style={{ marginTop: "20px" }}>
-        EMI Stress Test
-      </h1>
-
-      <p style={{ color: "#22c55e", fontSize: "14px" }}>
-        Real-time debt analysis
-      </p>
-
-      <div className="card" style={{ marginTop: "20px", maxWidth: "400px" }}>
-        <input
-          className="input"
-          type="number"
-          placeholder="Monthly Salary (₹)"
-          value={salary}
-          onChange={e => setSalary(e.target.value)}
-        />
-
-        <input
-          className="input"
-          type="number"
-          placeholder="Monthly EMI (₹)"
-          value={emi}
-          onChange={e => setEmi(e.target.value)}
-        />
-
-        <button className="button-primary" onClick={calculate}>
-          Check EMI Stress
-        </button>
+      <div className="card">
+        <input className="input" placeholder="Salary" value={salary} onChange={e => setSalary(e.target.value)} />
+        <input className="input" placeholder="EMI" value={emi} onChange={e => setEmi(e.target.value)} />
+        <button className="button-primary" onClick={calculate}>Check</button>
       </div>
 
       {result && (
-        <div className="result-card" style={{ marginTop: "30px", maxWidth: "400px" }}>
-          <h3>Status: {result.status}</h3>
-          <p>Your EMI is <strong>{result.percent}%</strong> of your salary.</p>
+        <div className="result-card">
+          <h2>{result.status}</h2>
+          <p>{result.percent}% of salary</p>
 
-          <p style={{ marginTop: "12px", color: "#aaa" }}>
-            {result.message}
-          </p>
+          <button
+            className="button-secondary"
+            onClick={() =>
+              share(`My EMI is ${result.percent}% of my salary. Status: ${result.status}.`)
+            }
+          >
+            Share this reality
+          </button>
         </div>
       )}
     </main>
