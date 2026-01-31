@@ -33,7 +33,33 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+
+        {/* FOOTER */}
+        <footer
+          style={{
+            marginTop: "80px",
+            padding: "40px 20px",
+            borderTop: "1px solid #1f2933",
+            textAlign: "center",
+            color: "#888",
+            fontSize: "14px"
+          }}
+        >
+          <div style={{ marginBottom: "10px" }}>
+            <a href="/about" style={{ margin: "0 10px" }}>About</a>
+            •
+            <a href="/disclaimer" style={{ margin: "0 10px" }}>Disclaimer</a>
+            •
+            <a href="/privacy" style={{ margin: "0 10px" }}>Privacy</a>
+          </div>
+
+          <div>
+            © {new Date().getFullYear()} MiddleClassFinance
+          </div>
+        </footer>
+      </body>
     </html>
   )
 }
