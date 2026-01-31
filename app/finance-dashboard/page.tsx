@@ -9,17 +9,45 @@ export default function FinanceDashboard() {
   const [expenses, setExpenses] = useState("")
   const [savings, setSavings] = useState("")
   const [age, setAge] = useState("")
-  const [result, setResult] = useState<any>(null)
-  const [loading, setLoading] = useState(false)
 
-  // 🔒 AUTH GUARD
+  const [targetSavings, setTargetSavings] = useState(30)
+  const [targetEmi, setTargetEmi] = useState(25)
+
+  const [result, setResult] = useState<any>(null)
+  const [user, setUser] = useState<any>(null)
+
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       if (!data.user) {
         window.location.href = "/login"
+      } else {
+        setUser(data.user)
+        loadGoals(data.user.id)
       }
     })
   }, [])
+
+  async function loadGoals(userId: string) {
+    const { data } = await supabase
+      .from("user_goals")
+      .select("*")
+      .eq("user_id", userId)
+      .single()
+
+    if (data) {
+      setTargetSavings(data.target_savings)
+      setTargetEmi(data.target_emi)
+    }
+  }
+
+  async function saveGoals() {
+    await supabase.from("user_goals").upsert({
+      user_id: user.id,
+      target_savings: targetSavings,
+      target_emi: targetEmi
+    })
+    alert("Goals saved")
+  }
 
   async function calculate() {
     const s = Number(salary)
@@ -29,102 +57,70 @@ export default function FinanceDashboard() {
     const sav = Number(savings)
     const a = Number(age)
 
-    if (!s || !a) {
-      alert("Please fill required fields")
-      return
-    }
-
-    setLoading(true)
-
-    const totalSpend = r + e + ex
-    const lifestylePercent = Math.round((totalSpend / s) * 100)
-
-    let lifestyleStatus = ""
-    if (lifestylePercent <= 60) lifestyleStatus = "Balanced 😌"
-    else if (lifestylePercent <= 80) lifestyleStatus = "Stretching 😐"
-    else lifestyleStatus = "Delusion 😵"
-
-    const emiPercent = Math.round((e / s) * 100)
-    let emiStatus = ""
-    if (emiPercent <= 30) emiStatus = "Safe"
-    else if (emiPercent <= 45) emiStatus = "Risky"
-    else emiStatus = "Dangerous"
+    if (!s || !a) return
 
     const savingsRate = Math.round((sav / s) * 100)
-
-    let verdict = "SAFE"
-    if (emiStatus === "Dangerous" || lifestyleStatus.includes("Delusion")) {
-      verdict = "DELUSIONAL"
-    } else if (emiStatus === "Risky" || lifestyleStatus.includes("Stretching")) {
-      verdict = "RISKY"
-    }
-
-    const { data: userData } = await supabase.auth.getUser()
-    if (!userData.user) {
-      alert("Please login first")
-      setLoading(false)
-      return
-    }
+    const emiRate = Math.round((e / s) * 100)
 
     await supabase.from("dashboard_history").insert({
-      user_id: userData.user.id,
+      user_id: user.id,
       salary: s,
       rent: r,
       emi: e,
       expenses: ex,
       savings: sav,
       age: a,
-      verdict
+      verdict: savingsRate >= targetSavings && emiRate <= targetEmi ? "ON TRACK" : "OFF TRACK"
     })
 
-    setResult({
-      lifestyleStatus,
-      lifestylePercent,
-      emiStatus,
-      emiPercent,
-      savingsRate,
-      verdict
-    })
-
-    setLoading(false)
+    setResult({ savingsRate, emiRate })
   }
 
   return (
     <main>
-      <a href="/" style={{ color: "#aaa", textDecoration: "none" }}>
-        ← Back
-      </a>
+      <h1>Personal Finance Dashboard</h1>
 
-      <h1 style={{ marginTop: "20px" }}>
-        Personal Finance Dashboard
-      </h1>
+      <div className="card" style={{ maxWidth: "450px" }}>
+        <input className="input" placeholder="Age" value={age} onChange={e => setAge(e.target.value)} />
+        <input className="input" placeholder="Salary" value={salary} onChange={e => setSalary(e.target.value)} />
+        <input className="input" placeholder="Rent" value={rent} onChange={e => setRent(e.target.value)} />
+        <input className="input" placeholder="EMI" value={emi} onChange={e => setEmi(e.target.value)} />
+        <input className="input" placeholder="Expenses" value={expenses} onChange={e => setExpenses(e.target.value)} />
+        <input className="input" placeholder="Savings" value={savings} onChange={e => setSavings(e.target.value)} />
 
-      <p style={{ color: "#22c55e", fontSize: "14px" }}>
-        Your complete financial reality in one place
-      </p>
+        <button className="button-primary" onClick={calculate}>
+          Analyze My Financial Life
+        </button>
+      </div>
 
-      <div className="card" style={{ marginTop: "20px", maxWidth: "450px" }}>
-        <input className="input" type="number" placeholder="Your Age" value={age} onChange={e => setAge(e.target.value)} />
-        <input className="input" type="number" placeholder="Monthly Salary (₹)" value={salary} onChange={e => setSalary(e.target.value)} />
-        <input className="input" type="number" placeholder="Rent (₹)" value={rent} onChange={e => setRent(e.target.value)} />
-        <input className="input" type="number" placeholder="EMI (₹)" value={emi} onChange={e => setEmi(e.target.value)} />
-        <input className="input" type="number" placeholder="Other Monthly Expenses (₹)" value={expenses} onChange={e => setExpenses(e.target.value)} />
-        <input className="input" type="number" placeholder="Monthly Savings (₹)" value={savings} onChange={e => setSavings(e.target.value)} />
+      <div className="result-card" style={{ marginTop: "30px", maxWidth: "450px" }}>
+        <h3>Your Goals</h3>
 
-        <button className="button-primary" onClick={calculate} disabled={loading}>
-          {loading ? "Saving..." : "Analyze My Financial Life"}
+        <p>Target Savings Rate (%)</p>
+        <input className="input" type="number" value={targetSavings} onChange={e => setTargetSavings(Number(e.target.value))} />
+
+        <p>Target EMI (%)</p>
+        <input className="input" type="number" value={targetEmi} onChange={e => setTargetEmi(Number(e.target.value))} />
+
+        <button className="button-secondary" onClick={saveGoals}>
+          Save Goals
         </button>
       </div>
 
       {result && (
-        <div className="result-card" style={{ marginTop: "30px", maxWidth: "500px" }}>
-          <h2>Overall Verdict: {result.verdict}</h2>
-          <p>Lifestyle: {result.lifestyleStatus} ({result.lifestylePercent}% spend)</p>
-          <p>EMI Stress: {result.emiStatus} ({result.emiPercent}%)</p>
-          <p>Savings Rate: {result.savingsRate}%</p>
+        <div className="result-card" style={{ marginTop: "20px", maxWidth: "450px" }}>
+          <h3>Progress</h3>
 
-          <p style={{ marginTop: "12px", color: "#aaa" }}>
-            This snapshot has been saved to your account.
+          <p>Savings: {result.savingsRate}% / {targetSavings}%</p>
+          <progress value={result.savingsRate} max={targetSavings}></progress>
+
+          <p>EMI: {result.emiRate}% / {targetEmi}%</p>
+          <progress value={targetEmi - result.emiRate} max={targetEmi}></progress>
+
+          <p style={{ marginTop: "10px", color: "#aaa" }}>
+            {result.savingsRate >= targetSavings && result.emiRate <= targetEmi
+              ? "You are on track. Keep going."
+              : "You are off track. Adjust your lifestyle."}
           </p>
         </div>
       )}
