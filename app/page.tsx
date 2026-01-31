@@ -1,4 +1,21 @@
+"use client"
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase"
+
 export default function Home() {
+  const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user)
+    })
+  }, [])
+
+  async function logout() {
+    await supabase.auth.signOut()
+    window.location.href = "/"
+  }
+
   return (
     <main>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -7,14 +24,24 @@ export default function Home() {
           for <span style={{ color: "#22c55e" }}>real Indian salaries</span>
         </h1>
 
-        <a href="/login">
-          <button className="button-secondary">Login</button>
-        </a>
+        {!user ? (
+          <a href="/login">
+            <button className="button-secondary">Login</button>
+          </a>
+        ) : (
+          <div style={{ display: "flex", gap: "10px" }}>
+            <a href="/history">
+              <button className="button-secondary">My Account</button>
+            </a>
+            <button className="button-secondary" onClick={logout}>
+              Logout
+            </button>
+          </div>
+        )}
       </div>
 
       <p style={{ marginTop: "20px", color: "#aaa", maxWidth: "600px" }}>
-        Practical finance tools for middle-class people.
-        No finfluencer gyaan. No fake motivation.
+        Track your financial reality over time.
       </p>
 
       <div style={{ marginTop: "40px", display: "flex", gap: "16px", flexWrap: "wrap" }}>

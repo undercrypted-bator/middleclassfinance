@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 
 export default function FinanceDashboard() {
@@ -11,6 +11,15 @@ export default function FinanceDashboard() {
   const [age, setAge] = useState("")
   const [result, setResult] = useState<any>(null)
   const [loading, setLoading] = useState(false)
+
+  // 🔒 AUTH GUARD
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) {
+        window.location.href = "/login"
+      }
+    })
+  }, [])
 
   async function calculate() {
     const s = Number(salary)
@@ -27,7 +36,6 @@ export default function FinanceDashboard() {
 
     setLoading(true)
 
-    // Lifestyle
     const totalSpend = r + e + ex
     const lifestylePercent = Math.round((totalSpend / s) * 100)
 
@@ -36,17 +44,14 @@ export default function FinanceDashboard() {
     else if (lifestylePercent <= 80) lifestyleStatus = "Stretching 😐"
     else lifestyleStatus = "Delusion 😵"
 
-    // EMI
     const emiPercent = Math.round((e / s) * 100)
     let emiStatus = ""
     if (emiPercent <= 30) emiStatus = "Safe"
     else if (emiPercent <= 45) emiStatus = "Risky"
     else emiStatus = "Dangerous"
 
-    // Savings
     const savingsRate = Math.round((sav / s) * 100)
 
-    // Overall verdict
     let verdict = "SAFE"
     if (emiStatus === "Dangerous" || lifestyleStatus.includes("Delusion")) {
       verdict = "DELUSIONAL"
@@ -54,16 +59,13 @@ export default function FinanceDashboard() {
       verdict = "RISKY"
     }
 
-    // Get logged in user
     const { data: userData } = await supabase.auth.getUser()
-
     if (!userData.user) {
       alert("Please login first")
       setLoading(false)
       return
     }
 
-    // Save to database
     await supabase.from("dashboard_history").insert({
       user_id: userData.user.id,
       salary: s,
@@ -117,7 +119,6 @@ export default function FinanceDashboard() {
       {result && (
         <div className="result-card" style={{ marginTop: "30px", maxWidth: "500px" }}>
           <h2>Overall Verdict: {result.verdict}</h2>
-
           <p>Lifestyle: {result.lifestyleStatus} ({result.lifestylePercent}% spend)</p>
           <p>EMI Stress: {result.emiStatus} ({result.emiPercent}%)</p>
           <p>Savings Rate: {result.savingsRate}%</p>
