@@ -20,24 +20,17 @@ export default function Home() {
   return (
     <main>
       {/* HERO SECTION */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "40px",
-          alignItems: "center"
-        }}
-      >
+      <div className="hero-grid">
         <div>
-          <h1 style={{ fontSize: "52px", lineHeight: "1.1" }}>
+          <h1 className="hero-title">
             MiddleClassFinance
           </h1>
 
-          <p style={{ color: "#aaa", marginTop: "10px", maxWidth: "420px" }}>
+          <p className="hero-sub">
             A personal finance system for Indian salaries.
           </p>
 
-          <div style={{ marginTop: "20px", display: "flex", gap: "12px" }}>
+          <div className="hero-buttons">
             <a href="/finance-dashboard">
               <button className="button-primary">Get Started</button>
             </a>
@@ -59,41 +52,24 @@ export default function Home() {
           alt="MiddleClassFinance dashboard preview"
           width={1200}
           height={675}
-          style={{
-            width: "100%",
-            height: "auto",
-            borderRadius: "16px",
-            border: "1px solid #1f2933"
-          }}
+          className="hero-image"
           priority
         />
       </div>
 
       {/* FEATURE SECTION */}
-      <div
-        style={{
-          marginTop: "120px",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "60px",
-          alignItems: "center"
-        }}
-      >
+      <div className="feature-grid">
         <Image
           src="/saving.png"
           alt="Savings and finance tracking"
           width={800}
           height={600}
-          style={{
-            width: "100%",
-            height: "auto",
-            borderRadius: "16px"
-          }}
+          className="feature-image"
         />
 
         <div>
           <h2>One Dashboard. Real Reality.</h2>
-          <p style={{ color: "#aaa", marginTop: "10px" }}>
+          <p className="feature-text">
             Track salary, rent, EMI, savings and lifestyle stress in one place.
             No fake motivation. Just real numbers.
           </p>
@@ -110,22 +86,11 @@ export default function Home() {
             alt="Personal finance guides"
             width={1200}
             height={500}
-            style={{
-              width: "100%",
-              height: "auto",
-              borderRadius: "16px"
-            }}
+            className="guide-image"
           />
         </div>
 
-        <div
-          style={{
-            marginTop: "30px",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "20px"
-          }}
-        >
+        <div className="guide-grid">
           <a href="/40k-salary-delhi" className="card">
             <h3>40k Salary in Delhi</h3>
             <p style={{ color: "#aaa" }}>
