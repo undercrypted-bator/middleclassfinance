@@ -22,13 +22,13 @@ export default function Home() {
       <section style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         <h1>MiddleClassFinance</h1>
 
-        <p style={{ color: "#aaa", maxWidth: "500px" }}>
-          A personal finance system for Indian salaries.
+        <p style={{ color: "#aaa", maxWidth: "600px" }}>
+          A practical personal finance toolkit for Indian middle-class salaries.
         </p>
 
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
           <a href="/finance-dashboard">
-            <button className="button-primary">Get Started</button>
+            <button className="button-primary">Finance Dashboard</button>
           </a>
 
           {!user ? (
@@ -51,7 +51,7 @@ export default function Home() {
           style={{
             marginTop: "20px",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
             gap: "16px"
           }}
         >
@@ -59,37 +59,45 @@ export default function Home() {
             Salary Reality Check
           </a>
 
-          <a href="/is-this-worth-it" className="card">
-            Is This Worth It?
-          </a>
-
           <a href="/emi-stress-test" className="card">
             EMI Stress Test
-          </a>
-
-          <a href="/lifestyle-reality-check" className="card">
-            Lifestyle Reality
           </a>
 
           <a href="/savings-splitter" className="card">
             Savings Splitter
           </a>
 
+          <a href="/lifestyle-reality-check" className="card">
+            Lifestyle Reality Check
+          </a>
+
           <a href="/fire-calculator" className="card">
             FIRE Calculator
+          </a>
+
+          <a href="/is-this-worth-it" className="card">
+            Is This Worth It?
+          </a>
+
+          <a href="/emergency-fund" className="card">
+            Emergency Fund Calculator
+          </a>
+
+          <a href="/net-worth" className="card">
+            Net Worth Tracker
           </a>
         </div>
       </section>
 
       {/* GUIDES */}
       <section style={{ marginTop: "80px" }}>
-        <h2>Popular Money Guides</h2>
+        <h2>Money Guides</h2>
 
         <div
           style={{
             marginTop: "20px",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
             gap: "20px"
           }}
         >
@@ -116,6 +124,21 @@ export default function Home() {
           <a href="/is-iphone-worth-it-india" className="card">
             <h3>Is iPhone Worth It?</h3>
             <p style={{ color: "#aaa" }}>Lifestyle trap?</p>
+          </a>
+
+          <a href="/emergency-fund-india" className="card">
+            <h3>Emergency Fund for Indians</h3>
+            <p style={{ color: "#aaa" }}>How much do you really need?</p>
+          </a>
+
+          <a href="/net-worth-middle-class" className="card">
+            <h3>Net Worth of Middle Class</h3>
+            <p style={{ color: "#aaa" }}>Reality check.</p>
+          </a>
+
+          <a href="/how-much-should-i-save-india" className="card">
+            <h3>How Much Should I Save?</h3>
+            <p style={{ color: "#aaa" }}>Realistic savings rule.</p>
           </a>
         </div>
       </section>
