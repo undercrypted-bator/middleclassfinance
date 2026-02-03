@@ -1,74 +1,53 @@
 "use client"
-import { supabase } from "@/lib/supabase"
 import { useState } from "react"
+import { supabase } from "@/lib/supabase"
+import { logEvent } from "@/lib/analytics"
 
-export default function LoginPage() {
+export default function Page() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
 
-  async function signIn() {
+  async function login() {
     setLoading(true)
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
-      password,
+      password
     })
-    setLoading(false)
 
     if (error) {
       alert(error.message)
     } else {
+      logEvent("login", "/login")
       window.location.href = "/finance-dashboard"
     }
-  }
 
-  async function signUp() {
-    setLoading(true)
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
     setLoading(false)
-
-    if (error) {
-      alert(error.message)
-    } else {
-      alert("Account created. Now login.")
-    }
   }
 
   return (
-    <main>
-      <h1>Login / Signup</h1>
+    <main style={{ maxWidth: "400px" }}>
+      <h1>Login</h1>
 
-      <p style={{ color: "#aaa" }}>
-        Create an account to save your financial history.
-      </p>
+      <input
+        className="input"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-      <div className="card" style={{ maxWidth: "400px", marginTop: "20px" }}>
-        <input
-          className="input"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
+      <input
+        className="input"
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-        <input
-          className="input"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-
-        <button className="button-primary" onClick={signIn} disabled={loading}>
-          {loading ? "Loading..." : "Login"}
-        </button>
-
-        <button className="button-secondary" onClick={signUp} disabled={loading}>
-          Create Account
-        </button>
-      </div>
+      <button className="button-primary" onClick={login} disabled={loading}>
+        {loading ? "Logging in..." : "Login"}
+      </button>
     </main>
   )
 }
