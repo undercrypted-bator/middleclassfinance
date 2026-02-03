@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import { logEvent } from "@/lib/analytics"
 
 export default function Page() {
   const [expenses, setExpenses] = useState("")
@@ -31,6 +32,8 @@ export default function Page() {
       months6,
       months12
     })
+
+    logEvent("emergency_fund_calculate", "/emergency-fund")
   }
 
   return (

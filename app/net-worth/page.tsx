@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import { logEvent } from "@/lib/analytics"
 
 export default function Page() {
   const [cash, setCash] = useState("")
@@ -20,6 +21,8 @@ export default function Page() {
     const netWorth = totalAssets - l
 
     setResult(netWorth)
+
+    logEvent("net_worth_calculate", "/net-worth")
   }
 
   return (
@@ -32,42 +35,14 @@ export default function Page() {
 
       <h2 style={{ marginTop: "20px" }}>Assets</h2>
 
-      <input
-        className="input"
-        placeholder="Cash (₹)"
-        value={cash}
-        onChange={(e) => setCash(e.target.value)}
-      />
-
-      <input
-        className="input"
-        placeholder="Bank Balance (₹)"
-        value={bank}
-        onChange={(e) => setBank(e.target.value)}
-      />
-
-      <input
-        className="input"
-        placeholder="Investments (₹)"
-        value={investments}
-        onChange={(e) => setInvestments(e.target.value)}
-      />
-
-      <input
-        className="input"
-        placeholder="Property Value (₹) (optional)"
-        value={property}
-        onChange={(e) => setProperty(e.target.value)}
-      />
+      <input className="input" placeholder="Cash (₹)" value={cash} onChange={(e) => setCash(e.target.value)} />
+      <input className="input" placeholder="Bank Balance (₹)" value={bank} onChange={(e) => setBank(e.target.value)} />
+      <input className="input" placeholder="Investments (₹)" value={investments} onChange={(e) => setInvestments(e.target.value)} />
+      <input className="input" placeholder="Property (₹)" value={property} onChange={(e) => setProperty(e.target.value)} />
 
       <h2 style={{ marginTop: "20px" }}>Liabilities</h2>
 
-      <input
-        className="input"
-        placeholder="Total Loans / Debt (₹)"
-        value={loans}
-        onChange={(e) => setLoans(e.target.value)}
-      />
+      <input className="input" placeholder="Loans / Debt (₹)" value={loans} onChange={(e) => setLoans(e.target.value)} />
 
       <button className="button-primary" onClick={calculate}>
         Calculate Net Worth
@@ -76,20 +51,9 @@ export default function Page() {
       {result !== null && (
         <div className="result-card" style={{ marginTop: "30px" }}>
           <h2>Your Net Worth</h2>
-
-          <p style={{ fontSize: "20px", marginTop: "10px" }}>
+          <p style={{ fontSize: "20px" }}>
             ₹{result.toLocaleString("en-IN")}
           </p>
-
-          {result < 0 ? (
-            <p style={{ color: "#f87171", marginTop: "10px" }}>
-              Your liabilities are higher than your assets.
-            </p>
-          ) : (
-            <p style={{ color: "#22c55e", marginTop: "10px" }}>
-              You have positive net worth.
-            </p>
-          )}
         </div>
       )}
     </main>
